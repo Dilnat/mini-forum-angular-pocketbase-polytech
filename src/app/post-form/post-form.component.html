@@ -1,0 +1,4 @@
+<form (ngSubmit)="submit()">
+  <textarea [(ngModel)]="contenu" name="contenu" placeholder="Votre message..." required></textarea>
+  <button type="submit" [disabled]="loading">Envoyer</button>
+</form>

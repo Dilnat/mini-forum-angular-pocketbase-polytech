@@ -1,0 +1,17 @@
+<div class="login-header">
+  <h2>Forum Polytech</h2>
+</div>
+<div class="login-box">
+  <h3>Veuillez vous authentifier :</h3>
+  <form (ngSubmit)="login()">
+    <label>
+      Entrez votre nom :
+      <input type="email" [(ngModel)]="email" name="email" placeholder="Votre email" required>
+    </label>
+    <label>
+      Entrez votre mot de passe :
+      <input type="password" [(ngModel)]="password" name="password" placeholder="Mot de passe" required>
+    </label>
+    <button type="submit" [disabled]="loading">Se connecter</button>
+  </form>
+</div>

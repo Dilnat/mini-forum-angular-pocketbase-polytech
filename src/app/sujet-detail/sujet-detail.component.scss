@@ -1,0 +1,124 @@
+.post {
+  background: #f5f7fa;
+  border-radius: 8px;
+  box-shadow: 0 1px 4px rgba(0,0,0,0.04);
+  margin-bottom: 1.2rem;
+  padding: 1rem 1.2rem;
+}
+.post-header {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.95rem;
+  color: #1976d2;
+  margin-bottom: 0.5rem;
+  align-items: center;
+}
+.post-content {
+  font-size: 1.08rem;
+  color: #222e3c;
+  white-space: pre-line;
+}
+h3 {
+  margin-top: 0;
+  color: #1976d2;
+  font-size: 1.3rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+.sujet-meta {
+  margin-bottom: 1.2rem;
+  color: #444;
+  font-size: 1rem;
+}
+.sujet-meta b {
+  color: #1976d2;
+}
+button {
+  background: #1976d2;
+  color: #fff;
+  border: none;
+  padding: 0.3rem 0.9rem;
+  border-radius: 4px;
+  font-size: 0.98rem;
+  cursor: pointer;
+  margin-left: 0.5rem;
+  transition: background 0.2s;
+}
+button:hover {
+  background: #1251a2;
+}
+button[type="button"] {
+  background: #e0e0e0;
+  color: #333;
+}
+input, textarea {
+  padding: 0.5rem 1rem;
+  border: 1px solid #cfd8dc;
+  border-radius: 4px;
+  font-size: 1rem;
+  background: #fff;
+  margin-right: 0.5rem;
+  margin-bottom: 0.5rem;
+  transition: border 0.2s;
+}
+input:focus, textarea:focus {
+  border-color: #1976d2;
+  outline: none;
+}
+.post-header button {
+  margin-left: 0.5rem;
+  padding: 0.2rem 0.7rem;
+  font-size: 0.95rem;
+}
+h3 input[type="text"] {
+  min-width: 180px;
+  width: auto;
+  max-width: 100%;
+  flex: 1 1 0;
+  padding: 0.5rem 1rem;
+  border: 1px solid #cfd8dc;
+  border-radius: 4px;
+  font-size: 1.1rem;
+  background: #fff;
+  margin-right: 0.5rem;
+  margin-bottom: 0;
+  transition: border 0.2s;
+}
+.pagination {
+  display: flex;
+  gap: 0.3rem;
+  justify-content: center;
+  margin: 1rem 0;
+}
+.pagination button {
+  background: #e0e0e0;
+  border: none;
+  border-radius: 4px;
+  padding: 0.3rem 0.8rem;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+.pagination button.active,
+.pagination button:hover {
+  background: #1976d2;
+  color: #fff;
+}
+.pagination button[disabled] {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+@media (max-width: 600px) {
+  .post {
+    padding: 0.7rem 0.5rem;
+  }
+  h3 {
+    font-size: 1.1rem;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+  .sujet-meta {
+    font-size: 0.95rem;
+  }
+}

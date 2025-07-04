@@ -1,0 +1,43 @@
+<div *ngIf="!loading">
+  <h3>
+    <span *ngIf="editingSujet; else titreDisplay">
+      <input [(ngModel)]="editedTitre" />
+      <button (click)="saveSujetEdit()">Enregistrer</button>
+      <button (click)="cancelSujetEdit()">Annuler</button>
+    </span>
+    <ng-template #titreDisplay>
+      {{ sujet?.titre }}
+      <button *ngIf="isSujetOwner()" (click)="startSujetEdit()">Modifier</button>
+      <button *ngIf="isSujetOwner()" (click)="deleteSujet()">Supprimer</button>
+    </ng-template>
+  </h3>
+  <div class="sujet-meta">
+    <span>Auteur : <b>{{ sujet?.expand?.auteur?.name || sujet?.expand?.auteur?.username || sujet?.expand?.auteur?.email || 'Anonyme' }}</b></span>
+  </div>
+  <div *ngIf="posts.length === 0">Aucun post pour ce sujet.</div>
+  <div *ngFor="let post of pagedPosts" class="post">
+    <div class="post-header">
+      <span><b>{{ post.expand?.auteur?.name || post.expand?.auteur?.username || post.auteur || 'Anonyme' }}</b></span>
+      <span>{{ post.created | date:'short' }}</span>
+      <span *ngIf="isOwner(post)">
+        <button (click)="startEdit(post)">Modifier</button>
+        <button (click)="deletePost(post.id)">Supprimer</button>
+      </span>
+    </div>
+    <div class="post-content" *ngIf="editingPostId !== post.id">{{ post.contenu }}</div>
+    <div *ngIf="editingPostId === post.id">
+      <textarea [(ngModel)]="editedContent"></textarea>
+      <button (click)="saveEdit(post)">Enregistrer</button>
+      <button (click)="cancelEdit()">Annuler</button>
+    </div>
+  </div>
+  <div *ngIf="postTotalPages > 1" class="pagination">
+    <button (click)="setPostPage(postPage-1)" [disabled]="postPage === 1">&lt;</button>
+    <span *ngFor="let p of [].constructor(postTotalPages); let i = index">
+      <button (click)="setPostPage(i+1)" [class.active]="postPage === i+1">{{ i+1 }}</button>
+    </span>
+    <button (click)="setPostPage(postPage+1)" [disabled]="postPage === postTotalPages">&gt;</button>
+  </div>
+  <app-post-form [sujetId]="sujet.id" (postCreated)="ngOnInit()"></app-post-form>
+</div>
+<div *ngIf="loading">Chargement...</div>

@@ -1,59 +1,108 @@
-# MiniForum
+# Mini-Forum Angular + PocketBase
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 20.0.1.
+## Présentation
+Ce projet est un mini-forum web développé avec Angular (standalone components) et connecté à une base de données PocketBase. Il permet l'authentification, la gestion de sujets et de posts, et propose une interface moderne et responsive.
 
-## Development server
+## Fonctionnalités principales
+- Authentification (connexion uniquement, pas d'inscription ni de mot de passe oublié)
+- Affichage de la liste des sujets avec nombre de posts et date du dernier message
+- Détail d'un sujet avec liste des posts et affichage des auteurs
+- Création, modification, suppression de sujets et de posts (par leur propriétaire uniquement)
+- Pagination sur la liste des sujets et des posts
+- Style moderne et responsive sur toutes les pages et formulaires
 
-To start a local development server, run:
+## Organisation du projet (MVVM)
+Le projet suit une architecture MVVM adaptée à Angular :
+- **Model** : Interfaces TypeScript pour `User`, `Sujet`, `Post` (dossier `models/`)
+- **ViewModel** : Composants Angular qui gèrent l'état, la logique et exposent les données à la vue
+- **View** : Templates HTML et SCSS associés à chaque composant
+- **Services** : Accès aux données et logique métier (PocketbaseService)
 
-```bash
-ng serve
+### Structure des dossiers
+```
+src/app/
+  models/
+    user.model.ts
+    sujet.model.ts
+    post.model.ts
+  services/
+    pocketbase.service.ts
+  sujets-list/
+    sujets-lists.component.ts/html/scss
+    sujet-form.component.ts/html/scss
+  sujet-detail/
+    sujet-detail.component.ts/html/scss
+  post-form/
+    post-form.component.ts/html/scss
+  login/
+    login.component.ts/html/scss
+  app.module.ts
+  app.routes.ts
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Modèles PocketBase
 
-## Code scaffolding
+### users (Type: Auth)
+- **id** : identifiant unique
+- **password** : mot de passe (caché)
+- **tokenKey** : clé d'authentification (cachée)
+- **email** : email (obligatoire)
+- **emailVisibility** : visibilité de l'email
+- **verified** : email vérifié
+- **name** : nom affiché
+- **avatar** : image d'avatar (fichier unique)
+- **created** : date de création
+- **updated** : date de modification
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+### sujets (Type: Base)
+- **id** : identifiant unique
+- **titre** : titre du sujet (obligatoire)
+- **auteur** : référence vers un utilisateur (users)
+- **created** : date de création
+- **updated** : date de modification
 
-```bash
-ng generate component component-name
-```
+### posts (Type: Base)
+- **id** : identifiant unique
+- **contenu** : texte du post (obligatoire)
+- **sujet** : référence vers un sujet (sujets)
+- **auteur** : référence vers un utilisateur (users)
+- **created** : date de création
+- **updated** : date de modification
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Services
+- **PocketbaseService** :
+  - Authentification (login, currentUser)
+  - CRUD sujets : getSujets, createSujet, updateSujet, deleteSujet
+  - CRUD posts : getPosts, createPost, updatePost, deletePost
+  - Gestion des relations (expand auteur)
 
-```bash
-ng generate --help
-```
+## Pages et composants
+- **/login** : Formulaire de connexion
+- **/sujets-list** : Liste paginée des sujets, bouton pour créer un sujet, accès au détail
+- **/sujet-detail/:id** : Détail d'un sujet, liste paginée des posts, édition/suppression inline, formulaire d'ajout de post
+- **/post-form** : Formulaire d'ajout de post (utilisé dans le détail d'un sujet)
+- **/sujet-form** : Formulaire d'ajout de sujet (utilisé dans la liste des sujets)
 
-## Building
+## Routing
+- `/login` : page de connexion
+- `/` : liste des sujets
+- `/sujet/:id` : détail d'un sujet
 
-To build the project run:
+## Pagination
+- Pagination côté client sur la liste des sujets et la liste des posts (pageSize configurable)
+- Barre de navigation entre les pages avec boutons et style moderne
 
-```bash
-ng build
-```
+## Logique d'accès et sécurité
+- Seul le propriétaire d'un sujet ou d'un post peut le modifier ou le supprimer (vérification côté client)
+- L'auteur est enregistré à la création (relation PocketBase)
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+## Style
+- SCSS moderne et responsive pour tous les composants
+- Utilisation de classes dédiées pour éviter les conflits de style
 
-## Running unit tests
+## Pour aller plus loin
+- Possibilité d'ajouter confirmation avant suppression, avatars, feedback utilisateur, pagination côté serveur, etc.
 
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
+---
 
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+**Auteur :** Projet réalisé dans le cadre d'un mini-projet Polytech.
