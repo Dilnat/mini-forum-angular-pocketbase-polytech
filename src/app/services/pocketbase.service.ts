@@ -1,8 +1,7 @@
 import { Injectable } from '@angular/core';
 import PocketBase from 'pocketbase';
-import { Sujet } from '../models/sujet.model';
 import { Post } from '../models/post.model';
-import { User } from '../models/user.model';
+import { Sujet } from '../models/sujet.model';
 
 @Injectable({
   providedIn: 'root'
@@ -82,5 +81,13 @@ export class PocketbaseService {
 
   get currentUser() {
     return this.pb.authStore.model;
+  }
+
+  logout() {
+    this.pb.authStore.clear();
+  }
+
+  isLoggedIn(): boolean {
+    return !!this.pb.authStore.model;
   }
 }

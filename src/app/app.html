@@ -1,1 +1,10 @@
+<div class="app-header" style="display:flex;align-items:center;justify-content:space-between;padding:0.7rem 2rem;background:#222e3c;color:#fff;">
+  <span style="font-size:1.2rem;font-weight:bold;">Mini-Forum</span>
+  @if (isLoggedIn) {
+    <span style="margin-right:1rem;">Connecté : {{ currentUser?.['name'] || currentUser?.['username'] || currentUser?.['email'] }}</span>
+    <button (click)="logout()" style="background:#fff;color:#222e3c;border:none;padding:0.4rem 1rem;border-radius:4px;cursor:pointer;">Se déconnecter</button>
+  } @else {
+    <button (click)="login()" style="background:#fff;color:#222e3c;border:none;padding:0.4rem 1rem;border-radius:4px;cursor:pointer;">Se connecter</button>
+  }
+</div>
 <router-outlet></router-outlet>
