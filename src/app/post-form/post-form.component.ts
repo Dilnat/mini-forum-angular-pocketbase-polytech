@@ -1,5 +1,5 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Component, input, output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { PocketbaseService } from '../services/pocketbase.service';
 
@@ -11,8 +11,8 @@ import { PocketbaseService } from '../services/pocketbase.service';
   styleUrls: ['./post-form.component.scss']
 })
 export class PostFormComponent {
-  @Input() sujetId!: string;
-  @Output() postCreated = new EventEmitter<void>();
+  sujetId = input<string>();
+  postCreated = output<void>();
   contenu = '';
   loading = false;
 
@@ -21,7 +21,7 @@ export class PostFormComponent {
   async submit() {
     if (!this.contenu.trim()) return;
     this.loading = true;
-    await this.pb.createPost({ contenu: this.contenu, sujet: this.sujetId });
+    await this.pb.createPost({ contenu: this.contenu, sujet: this.sujetId()! });
     this.contenu = '';
     this.loading = false;
     this.postCreated.emit();

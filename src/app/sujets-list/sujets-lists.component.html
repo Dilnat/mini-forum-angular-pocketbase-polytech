@@ -2,30 +2,40 @@
   <h2>Forum Polytech</h2>
   <button (click)="nouveauSujet()">Nouveau sujet</button>
 </div>
-<app-sujet-form *ngIf="showForm" (sujetCreated)="onSujetCreated()" (cancel)="onCancel()"></app-sujet-form>
-<table *ngIf="!loading">
-  <thead>
-    <tr>
-      <th>Sujet</th>
-      <th>#posts</th>
-      <th>Dernier message</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr *ngFor="let sujet of pagedSujets" (click)="goToSujet(sujet)" style="cursor:pointer">
-      <td>{{ sujet.titre }}</td>
-      <td>{{ sujet.nbPosts }}</td>
-      <td>
-        {{ sujet.lastPostDate ? (sujet.lastPostDate | date:'short') : '--' }}
-      </td>
-    </tr>
-  </tbody>
-</table>
-<div *ngIf="!loading && totalPages > 1" class="pagination">
-  <button (click)="setPage(page-1)" [disabled]="page === 1">&lt;</button>
-  <span *ngFor="let p of [].constructor(totalPages); let i = index">
-    <button (click)="setPage(i+1)" [class.active]="page === i+1">{{ i+1 }}</button>
-  </span>
-  <button (click)="setPage(page+1)" [disabled]="page === totalPages">&gt;</button>
-</div>
-<div *ngIf="loading">Chargement...</div>
+@if (showForm) {
+  <app-sujet-form (sujetCreated)="onSujetCreated()" (cancel)="onCancel()"></app-sujet-form>
+}
+@if (!loading) {
+  <table>
+    <thead>
+      <tr>
+        <th>Sujet</th>
+        <th>#posts</th>
+        <th>Dernier message</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (sujet of pagedSujets; track sujet.id) {
+        <tr (click)="goToSujet(sujet)" style="cursor:pointer">
+          <td>{{ sujet.titre }}</td>
+          <td>{{ sujet.nbPosts }}</td>
+          <td>
+            {{ sujet.lastPostDate ? (sujet.lastPostDate | date:'short') : '--' }}
+          </td>
+        </tr>
+      }
+    </tbody>
+  </table>
+}
+@if (!loading && totalPages > 1) {
+  <div class="pagination">
+    <button (click)="setPage(page-1)" [disabled]="page === 1">&lt;</button>
+    @for (p of pages; track p) {
+      <button (click)="setPage(p)" [class.active]="page === p">{{ p }}</button>
+    }
+    <button (click)="setPage(page+1)" [disabled]="page === totalPages">&gt;</button>
+  </div>
+}
+@if (loading) {
+  <div>Chargement...</div>
+}

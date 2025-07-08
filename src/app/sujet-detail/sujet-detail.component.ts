@@ -1,9 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
-import { PocketbaseService } from '../services/pocketbase.service';
 import { CommonModule } from '@angular/common';
+import { Component, OnInit } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PostFormComponent } from '../post-form/post-form.component';
+import { PocketbaseService } from '../services/pocketbase.service';
 
 @Component({
   selector: 'app-sujet-detail',
@@ -24,6 +24,9 @@ export class SujetDetailComponent implements OnInit {
   }
   get postTotalPages(): number {
     return Math.ceil(this.posts.length / this.postPageSize);
+  }
+  get postPages(): number[] {
+    return Array.from({ length: this.postTotalPages }, (_, i) => i + 1);
   }
   setPostPage(p: number) {
     if (p >= 1 && p <= this.postTotalPages) this.postPage = p;
@@ -111,7 +114,8 @@ export class SujetDetailComponent implements OnInit {
     this.router.navigate(['/sujets']);
   }
 
-  async isSujetOwner() {
+  // Remplacer la méthode async isSujetOwner par une version synchrone
+  isSujetOwner(): boolean {
     const currentUserId = this.pb.currentUser?.id;
     return this.sujet?.auteur === currentUserId || this.sujet?.expand?.auteur?.id === currentUserId;
   }

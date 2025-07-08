@@ -1,9 +1,9 @@
+import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { PocketbaseService } from '../services/pocketbase.service';
-import { CommonModule } from '@angular/common';
-import { SujetFormComponent } from './sujet-form.component';
 import { Sujet } from '../models/sujet.model';
+import { PocketbaseService } from '../services/pocketbase.service';
+import { SujetFormComponent } from './sujet-form.component';
 
 @Component({
   selector: 'app-sujets-list',
@@ -26,6 +26,9 @@ export class SujetsListsComponent implements OnInit {
   }
   get totalPages(): number {
     return Math.ceil(this.sujets.length / this.pageSize);
+  }
+  get pages(): number[] {
+    return Array.from({ length: this.totalPages }, (_, i) => i + 1);
   }
 
   constructor(private pb: PocketbaseService, private router: Router) {}
